@@ -29,6 +29,10 @@ Pull a specific version:
 docker pull ghcr.io/luckyonesl/bitwarden-cli:v1.0.0
 ```
 
+### source repo / documentation
+
+[ bitwarden-cli ](https://external-secrets.io/latest/examples/bitwarden/)
+
 ## Usage
 
 Run the container with the required environment variables:
