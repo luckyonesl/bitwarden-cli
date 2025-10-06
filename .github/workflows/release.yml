@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          body: |
+            ## Docker Image
+            
+            Pull the Docker image:
+            ```bash
+            docker pull ghcr.io/${{ github.repository }}:${{ steps.get_version.outputs.version }}
+            ```
+            
+            Or use latest:
+            ```bash
+            docker pull ghcr.io/${{ github.repository }}:latest
+            ```
+            
+            ## Usage
+            
+            Run the container with required environment variables:
+            ```bash
+            docker run -d \
+              -e BW_CLIENTID=your_client_id \
+              -e BW_CLIENTSECRET=your_client_secret \
+              -e BW_PASSWORD_FILE=/path/to/password/file \
+              -e BW_SERVER=https://your.bitwarden.server \
+              -v /path/to/password:/path/to/password \
+              -p 8087:8087 \
+              ghcr.io/${{ github.repository }}:${{ steps.get_version.outputs.version }}
+            ```
