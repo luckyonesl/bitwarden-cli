@@ -1,9 +1,6 @@
 name: Build and Publish Docker Image
 
 on:
-  permissions:
-    id-token: write
-    contents: read
   push:
     branches:
       - master
@@ -24,6 +21,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: read
       packages: write
 
