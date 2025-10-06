@@ -1,6 +1,9 @@
 name: Build and Publish Docker Image
 
 on:
+  permissions:
+    id-token: write
+    contents: read
   push:
     branches:
       - master
